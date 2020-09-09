@@ -64,10 +64,14 @@ function onDownloadCaptions(downloadedText) {
             showCaptions: false
         },
         function(items) {
-            createUI(items.showCaptions);
             setInterval(changeCaption, 16);
         }
     );
+}
+
+function onDownloadFailed() {
+    createUI(false, false);
+    document.getElementById("yc-button").setAttribute("disabled", "");
 }
 
 var currTime = 0;

@@ -18,8 +18,7 @@ function checkForCaption(repoID, lang) {
             } else if(repoID < maxRepoID) {
                 checkForCaption(repoID + 1);
             } else {
-                console.log("YO");
-                document.getElementById("yc-button").setAttribute("disabled", "");
+                onDownloadFailed();
             }
         }
     }

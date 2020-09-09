@@ -13,8 +13,9 @@
         "64": "icons/logo-64.png",
         "512": "icons/logo-512.png"
     },
-    
+        
     "page_action": {
+        "default_popup": "popup.html",
         "default_icon": {
             "16": "icons/logo-16.png",
             "32": "icons/logo-32.png",
@@ -24,6 +25,10 @@
         "default_title": "YouCap"      // optional; shown in tooltip
     },
     
+    "background": {
+        "scripts": ["js/bg.js"],
+        "persistent": false
+    },
     "content_scripts": [
         {
             "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/embed*"],
@@ -34,6 +39,7 @@
     "incognito": "split",
     "offline_enabled": true,
     "permissions": [
+        "declarativeContent",
         "storage",
         "tabs"
     ],
