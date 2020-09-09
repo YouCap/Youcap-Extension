@@ -1,0 +1,189 @@
+{
+    "Font family": [
+        "Monospaced Serif": {
+            "font-family": "\"Courier New\", Courier, \"Nimbus Mono L\", \"Cutive Mono\", monospace"
+        },
+        "Proportional Serif": {
+            "font-family": "\"Times New Roman\", Times, Georgia, Cambria, \"PT Serif Caption\", serif"
+        },
+        "Monospaced Sans-Serif": {
+            "font-family": "\"Deja Vu Sans Mono\", \"Lucida Console\", Monaco, Consolas, \"PT Mono\", monospace"
+        },
+        "Proportional Sans-Serif": {
+            "font-family": "\"YouTube Noto\", Roboto, \"Arial Unicode Ms\", Arial, Helvetica, Verdana, \"PT Sans Caption\", sans-serif"
+        },
+        "Casual": {
+            "font-family": "\"Comic Sans MS\", Impact, Handlee, fantasy"
+        },
+        "Cursive": {
+            "font-family": "\"Monotype Corsiva\", \"URW Chancery L\", \"Apple Chancery\", \"Dancing Script\", cursive"
+        },
+        "Small Caps": {
+            "font-family": "\"Arial Unicode Ms\", Arial, Helvetica, Verdana, \"Marcellus SC\", sans-serif",
+            "font-variant": "small-caps"
+        }        
+    ],
+    "Font Color": [
+        "White": {
+            "color": "white"
+        },
+        "Yellow": {
+            "color": "yellow"
+        },
+        "Green": {
+            "color": "green"
+        },
+        "Cyan": {
+            "color": "cyan"
+        },
+        "Blue": {
+            "color": "blue"
+        },
+        "Magenta": {
+            "color": "magenta"
+        },
+        "Red": {
+            "color": "red"
+        },
+        "Black": {
+            "color": "black"
+        }
+    ],
+    "Font Size": [
+        "50%": {
+            "font-size": "8px"
+        },
+        "75%": {
+            "font-size": "12px"    
+        },
+        "100%": {
+            "font-size": "16px"
+        },
+        "150%": {
+            "font-size": "24px"    
+        },
+        "200%": {
+            "font-size": "32px"    
+        },
+        "300%": {
+            "font-size": "48px"    
+        },
+        "400%": {
+            "font-size": "64px"
+        }
+    ],
+    "Background Color": [
+        "White": {
+            "background-color": "white"
+        },
+        "Yellow": {
+            "background-color": "yellow"
+        },
+        "Green": {
+            "background-color": "green"
+        },
+        "Cyan": {
+            "background-color": "cyan"
+        },
+        "Blue": {
+            "background-color": "blue"
+        },
+        "Magenta": {
+            "background-color": "magenta"
+        },
+        "Red": {
+            "background-color": "red"
+        },
+        "Black": {
+            "background-color": "black"
+        }
+    ],
+    "Opacity": [
+        "0%": {
+            "opacity": "0"
+        },
+        "25%": {
+            "opacity": "0.25"
+        },
+        "50%": {
+            "opacity": "0.5"
+        },
+        "75%": {
+            "opacity": "0.75"
+        },
+        "100%": {
+            "opacity": "1"
+        }
+    ],
+    "Window Color": [
+        "White": {
+            "background-color": "white"
+        },
+        "Yellow": {
+            "background-color": "yellow"
+        },
+        "Green": {
+            "background-color": "green"
+        },
+        "Cyan": {
+            "background-color": "cyan"
+        },
+        "Blue": {
+            "background-color": "blue"
+        },
+        "Magenta": {
+            "background-color": "magenta"
+        },
+        "Red": {
+            "background-color": "red"
+        },
+        "Black": {
+            "background-color": "black"
+        }
+    ],
+    "Window Opacity": [
+        "0%": {
+            "opacity": "0"
+        },
+        "25%": {
+            "opacity": "0.25"
+        },
+        "50%": {
+            "opacity": "0.5"
+        },
+        "75%": {
+            "opacity": "0.75"
+        },
+        "100%": {
+            "opacity": "1"
+        }
+    ],
+    "Characted Edge Style": [
+        "Drop Shadow": {
+            "text-shadow": "rgb(34, 34, 34) 1px 1px 1.5px, rgb(34, 34, 34) 1px 1px 2px, rgb(34, 34, 34) 1px 1px 2.5px"
+        },
+        "Raised": {
+            "text-shadow": "rgb(34, 34, 34) 1px 1px"
+        },
+        "Depressed": {
+            "text-shadow": "rgb(204, 204, 204) 1px 1px, rgb(34, 34, 34) -1px -1px"
+        },
+        "Outline": {
+            "text-shadow": "rgb(34, 34, 34) 0px 0px 1px, rgb(34, 34, 34) 0px 0px 1px, rgb(34, 34, 34) 0px 0px 1px, rgb(34, 34, 34) 0px 0px 1px, rgb(34, 34, 34) 0px 0px 1px"
+        }
+    ],
+    "Font Opacity": [
+        "25%": {
+            "opacity": "0.25"
+        },
+        "50%": {
+            "opacity": "0.5"
+        },
+        "75%": {
+            "opacity": "0.75"
+        },
+        "100%": {
+            "opacity": "1"
+        }
+    ]
+}

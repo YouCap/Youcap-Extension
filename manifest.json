@@ -1,0 +1,45 @@
+{
+    // Required
+    "manifest_version": 2,
+    "name": "YouCap",
+    "version": "0.1.0",
+
+    // Recommended
+    "default_locale": "en",
+    "description": "An extension for YouCap, a community-driven alternative to YouTube's community captions.",
+    "icons": {
+        "16": "icons/logo-16.png",
+        "32": "icons/logo-32.png",
+        "64": "icons/logo-64.png",
+        "512": "icons/logo-512.png"
+    },
+    
+    "page_action": {
+        "default_icon": {
+            "16": "icons/logo-16.png",
+            "32": "icons/logo-32.png",
+            "64": "icons/logo-64.png",
+            "512": "icons/logo-512.png"
+        },
+        "default_title": "YouCap"      // optional; shown in tooltip
+    },
+    
+    "content_scripts": [
+        {
+            "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/embed*"],
+            "css": ["css/youtube.css"],
+            "js": ["js/ui.js", "js/captions.js", "js/youtube.js"]
+        }
+    ],
+    "incognito": "split",
+    "offline_enabled": true,
+    "permissions": [
+        "storage",
+        "tabs"
+    ],
+    "version_name": "0.1.0 Developer Build",
+    "web_accessible_resources": [
+        "js/webpage.js",
+        "icons/logo-white-128.png"
+    ]
+}

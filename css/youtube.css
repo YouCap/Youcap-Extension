@@ -1,0 +1,54 @@
+.yc-window {
+    position: absolute;
+    display: none;
+    max-width: 80%;
+    max-height: 80%;
+    
+    bottom: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    text-align: center;
+    overflow: hidden;
+    
+    background: transparent;
+    pointer-events: none;
+    
+    padding: 0 1px;
+    
+    z-index: 10;
+}
+
+#yc-window-helper {
+    text-align: left;
+    bottom: auto;
+    top: 6.8%;
+    left: 20%;
+}
+
+#yc-window-helper svg {
+    display: inline-block;
+    transform: translateY(4px);
+}
+
+.yc-window.show {
+    display: inline-block;
+}
+
+.yc-caption {
+    padding: 0px;
+    
+    background-color: black;
+    
+    font-family: "Arial", sans-serif;
+    font-size: 20px;
+    line-height: calc(100% + 2px);
+    color: white;
+    
+    white-space: pre-wrap;
+    pointer-events: none;
+}
+
+.yc-caption.nopad {
+    padding: 0px;
+}

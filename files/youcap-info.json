@@ -1,0 +1,10 @@
+{
+    "languages": [
+        {
+            "name": "English",
+            "code": "en",
+            "max-review-repo-number": "0",
+            "max-repo-number": "0"
+        }
+    ]
+}
