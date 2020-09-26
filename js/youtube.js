@@ -16,7 +16,7 @@ function checkForCaption(repoID, lang) {
             if(this.status == 200) {
                 onDownloadCaptions(this.responseText);
             } else if(repoID < maxRepoID) {
-                checkForCaption(repoID + 1);
+                checkForCaption(repoID + 1, lang);
             } else {
                 onDownloadFailed();
             }
