@@ -26,8 +26,12 @@
     },
     
     "background": {
-        "scripts": ["js/bg.js"],
-        "persistent": false
+        "scripts": ["js/bg.js"]
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{f4ca4ff8-584f-4a7e-b09f-3b8ed2c8abbc}"
+        }
     },
     "content_scripts": [
         {
@@ -36,14 +40,11 @@
             "js": ["js/ui.js", "js/captions.js", "js/youtube.js"]
         }
     ],
-    "incognito": "split",
-    "offline_enabled": true,
     "permissions": [
-        "declarativeContent",
+        "*://raw.githubusercontent.com/*",
         "storage",
         "tabs"
     ],
-    "version_name": "0.1.0 Developer Build",
     "web_accessible_resources": [
         "js/webpage.js",
         "icons/logo-white-128.png"

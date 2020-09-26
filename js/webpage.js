@@ -40,7 +40,6 @@ function updateCaptionStyle() {
     var windowStyle = "background-color: " + hexToRgbA(settings.windowColor, settings.windowOpacity);
     
     var helperSVGDim = (document.getElementById("player-container").offsetHeight * FONT_MULTS[settings.fontSizeIncrement + 2] + 2) + "px";
-    console.log(helperSVGDim);
     
     //Set styles for all elements
     document.getElementById("yc-caption").setAttribute("style", captionStyle);

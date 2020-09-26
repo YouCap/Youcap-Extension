@@ -12,11 +12,11 @@ var maxRepoID = 0;
 function checkForCaption(repoID, lang) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
-        if(this.readyState == 4) {            
+        if(this.readyState == 4) {  
             if(this.status == 200) {
                 onDownloadCaptions(this.responseText);
             } else if(repoID < maxRepoID) {
-                checkForCaption(repoID + 1);
+                checkForCaption(repoID + 1, lang);
             } else {
                 onDownloadFailed();
             }
@@ -24,6 +24,7 @@ function checkForCaption(repoID, lang) {
     }
 
     xhr.open("get", "https://raw.githubusercontent.com/YouCap/captions-" + lang + "-" + repoID + "/master/published/" + vidID);
+    xhr.setRequestHeader("Access-Control-Allow-Origin","*");
     xhr.send();
 }
 

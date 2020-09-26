@@ -120,7 +120,6 @@ function showHelperWindow() {
             }
         
             window_helper.classList.add("show");
-            console.log(window_helper.classList);
         
             setTimeout(function() {
                 window_helper.classList.remove("show");

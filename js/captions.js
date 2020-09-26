@@ -20,7 +20,6 @@ function timeFormat(value) {
     }
     
     return "";
-    console.log("REGEX ERROR");
 }
 
 //Converts a time code to seconds.
@@ -64,6 +63,7 @@ function onDownloadCaptions(downloadedText) {
             showCaptions: false
         },
         function(items) {
+            createUI(items.showCaptions, true);
             setInterval(changeCaption, 16);
         }
     );

@@ -1,5 +1,5 @@
 const CREATE_CAPTION_URL = "https://www.youcap.com/pages/create"
-const URL_REGEX = /^http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\=]*)?$/gm;
+const URL_REGEX = /^http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\%\=]*)*$/gm;
 
 var selects = document.querySelectorAll("button.select");
 
@@ -55,9 +55,7 @@ chrome.storage.sync.get({
         chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
             let url = tabs[0].url;
             var match = new RegExp(URL_REGEX).exec(url);
-            document.querySelector("button.caption-button").addEventListener("click", function() { 
-                window.open(CREATE_CAPTION_URL + "?vidId=" + match[1], "_blank");
-            });
+            document.querySelector("button.caption-button a").href = CREATE_CAPTION_URL + "?vid-id=" + match[1];
         });
     }
 );
