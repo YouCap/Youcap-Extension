@@ -64,6 +64,7 @@ function onDownloadCaptions(downloadedText) {
             showCaptions: false
         },
         function(items) {
+            createUI(items.showCaptions, true);
             setInterval(changeCaption, 16);
         }
     );

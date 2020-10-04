@@ -96,7 +96,7 @@ function createUI(showCaptionsDefault, foundCaptions) {
     document.querySelector(".ytp-subtitles-button").addEventListener("click", function() {
         if(this.getAttribute("aria-pressed") == "true")
             yc_button.setAttribute("disabled", "");
-        else
+        else if(foundCaptions)
             yc_button.removeAttribute("disabled");
     });
 }
