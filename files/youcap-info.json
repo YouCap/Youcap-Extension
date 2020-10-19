@@ -5,6 +5,18 @@
             "code": "en",
             "max-review-repo-number": "0",
             "max-repo-number": "0"
+        },
+        {
+            "name": "Spanish",
+            "code": "es",
+            "max-review-repo-number": "0",
+            "max-repo-number": "0"
+        },
+        {
+            "name": "French",
+            "code": "fr",
+            "max-review-repo-number": "0",
+            "max-repo-number": "0"
         }
     ]
 }
