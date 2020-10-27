@@ -1,4 +1,4 @@
-const CREATE_CAPTION_URL = "https://www.youcap.com/pages/create"
+const CREATE_CAPTION_URL = "https://youcap.video/pages/create";
 const URL_REGEX = /^http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\%\=]*)*$/gm;
 
 var selects = document.querySelectorAll("button.select");

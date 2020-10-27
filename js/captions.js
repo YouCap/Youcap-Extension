@@ -35,6 +35,8 @@ function timeToSeconds(time) {
 
 //A parser for SBV files.
 var PARSER_SBV = function(contents) {
+    contents = contents.replace(/\r\n/, "\n");
+    
     //Regex for matching SBV entries
     var REGEX = new RegExp("([\\d:.]+),([\\d:.]+)\\n([\\s\\S]*?)(?=$|\\n{2}(?:\\d{1,2}:)+)", "gm");
     
