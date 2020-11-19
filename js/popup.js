@@ -2,7 +2,7 @@
 const CREATE_CAPTION_URL = "https://youcap.video/pages/create";
 
 //The URI for the language information JSON file
-const LANGUAGE_URI = "https://raw.githubusercontent.com/YouCap/YouCap-Website/master/backend/youcap-info.json";
+const LANGUAGE_URI = "https://raw.githubusercontent.com/YouCap/YouCap-Website/main/backend/youcap-info.json";
 
 //A regex for identifying valid YouTube URLs.
 const URL_REGEX = /^http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\=]*)?$/gm;
