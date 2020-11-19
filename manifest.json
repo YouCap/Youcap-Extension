@@ -43,6 +43,7 @@
     "version_name": "0.1.0 Developer Build",
     "web_accessible_resources": [
         "js/webpage.js",
+        "css/youtube.css",
         "icons/logo-white-128.png"
     ]
 }

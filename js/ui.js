@@ -28,6 +28,20 @@ function createCaption(text) {
 function createUI(showCaptionsDefault, foundCaptions) {
     var movie_player = document.getElementById("movie_player");
     
+    //Create a sandbox for establishing a security layer between 
+    var sandbox = document.createElement("iframe");
+    sandbox.id = "yc-iframe";
+    movie_player.prepend(sandbox);
+    
+    var sandbox_head = sandbox.contentDocument.head;
+    var sandbox_body = sandbox.contentDocument.body;
+    
+    var stylesheet = document.createElement("link");
+    stylesheet.rel = "stylesheet";
+    stylesheet.type = "text/css";
+    stylesheet.href = chrome.extension.getURL("css/youtube.css");
+    sandbox_head.appendChild(stylesheet);
+    
     //Create the control button for enabling/disabling YouCap
     yc_button = document.createElement("button");
     yc_button.id = "yc-button";
@@ -107,7 +121,7 @@ function createUI(showCaptionsDefault, foundCaptions) {
             yc_caption_helper.classList.add("yc-caption");
         }
         yc_window_helper.appendChild(yc_caption_helper);
-        document.getElementById("movie_player").appendChild(yc_window_helper);
+        sandbox_body.appendChild(yc_window_helper);
 
         //If the captions are shown by default, the help message should automatically appear.
         if(showCaptionsDefault)
@@ -126,8 +140,8 @@ function createUI(showCaptionsDefault, foundCaptions) {
         yc_caption.classList.add("yc-caption");
         yc_caption.textContent = "";
 
-        document.getElementById("movie_player").appendChild(yc_window);
-        document.getElementById("yc-window").appendChild(yc_caption);
+        yc_window.appendChild(yc_caption);
+        sandbox_body.appendChild(yc_window);
         
         movie_player.dispatchEvent(new Event("captionRestyle"));
     }
@@ -163,6 +177,11 @@ function showHelperWindow() {
         function(items) {
             //Gets a pretty language name
             var lang = capitalizeFirstLetter(items.language);
+        
+            yc_window_helper.classList.add("show");
+            setTimeout(function() {
+                yc_window_helper.classList.remove("show");
+            }, 2000);
         
             //Adds the content for the help message if necessary
             if(yc_window_helper.querySelector(".yc-caption").innerHTML == "") {                

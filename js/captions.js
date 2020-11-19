@@ -18,7 +18,6 @@ function timeFormat(value) {
     }
     
     return "";
-    console.log("REGEX ERROR");
 }
 
 //Converts a time code to seconds.
