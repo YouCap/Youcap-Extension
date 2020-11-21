@@ -23,7 +23,7 @@ function checkForCaption(repoID, lang) {
         }
     }
 
-    xhr.open("get", "https://raw.githubusercontent.com/YouCap/captions-" + lang + "-" + repoID + "/master/published/" + vidID);
+    xhr.open("get", "https://raw.githubusercontent.com/YouCap/captions-" + lang + "-" + repoID + "/main/published/" + vidID);
     xhr.setRequestHeader("Access-Control-Allow-Origin","*");
     xhr.send();
 }

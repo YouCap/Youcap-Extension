@@ -1,3 +1,11 @@
+//MutationObserver for all but webkit-based browsers
+MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+//Get the movie player
+var movie_player = document.getElementById("movie_player");
+
+var sandbox_doc = document.getElementById("yc-iframe").contentDocument;
+
 //Font Family setting map
 const FONT_FAMILIES = [
     "'Courier New', Courier, 'Nimbus Mono L', 'Cutive Mono', monospace",
@@ -21,9 +29,12 @@ CHAR_EDGE_STYLES = [
 FONT_MULTS = [1 / 45, 1 / 30, 1 / 22.5, 1 / 18, 1 / 15, 1 / 12.85, 1 / 11.25];
 
 //Updates the caption style when settings are changed or when the window's resized.
-function updateCaptionStyle() {
-    var settings = document.getElementById("movie_player").getSubtitlesUserSettings();
-    
+function updateCaptionStyle() {    
+    if(observer !== null && observer !== undefined)
+        observer.disconnect();
+
+    var settings = movie_player.getSubtitlesUserSettings();
+        
     var captionStyle =
         "background-color: " +
         hexToRgbA(settings.background, settings.backgroundOpacity) +
@@ -42,19 +53,23 @@ function updateCaptionStyle() {
     var helperSVGDim = (document.getElementById("player-container").offsetHeight * FONT_MULTS[settings.fontSizeIncrement + 2] + 2) + "px";
     
     //Set styles for all elements
-    document.getElementById("yc-caption").setAttribute("style", captionStyle);
-    document.getElementById("yc-window").setAttribute("style", windowStyle);
-    document.getElementById("yc-window-helper").setAttribute("style", windowStyle);
-    document.getElementById("yc-window-helper").querySelector(".yc-caption").setAttribute("style", captionStyle);
+    sandbox_doc.getElementById("yc-caption").setAttribute("style", captionStyle);
+    sandbox_doc.getElementById("yc-window").setAttribute("style", windowStyle);
     
-    if(document.getElementById("yc-window-helper").querySelector(".yc-caption").innerHTML != "") {
-        document.getElementById("yc-window-helper").querySelector("svg").setAttribute("height", helperSVGDim);
-        document.getElementById("yc-window-helper").querySelector("svg").setAttribute("width", helperSVGDim);
-        document.getElementById("yc-window-helper").querySelector("path").setAttribute("fill", hexToRgbA(settings.color, settings.textOpacity));
+    var window_helper = sandbox_doc.getElementById("yc-window-helper");
+        
+    window_helper.setAttribute("style", windowStyle);
+    window_helper.querySelector(".yc-caption").setAttribute("style", captionStyle);
+
+    if(window_helper.querySelector(".yc-caption").innerHTML != "") {
+        window_helper.querySelector("svg").setAttribute("height", helperSVGDim);
+        window_helper.querySelector("svg").setAttribute("width", helperSVGDim);
+        window_helper.querySelector("path").setAttribute("fill", hexToRgbA(settings.color, settings.textOpacity));
     }
 }
 
 //Convert a hex color to rgba, including the provided opacity as the alpha value.
+//Credit: https://stackoverflow.com/a/21648508/9146863
 function hexToRgbA(hex, opacity) {
     var c;
     if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex))
@@ -62,29 +77,18 @@ function hexToRgbA(hex, opacity) {
     throw new Error("Bad Hex");
 }
 
-//Set all of the caption's styling at the beginning
-updateCaptionStyle();
+//Create a MutationObserver that restyles the captions after they're first created.
+var observer = new MutationObserver(function(mutations) {
+    if(document.getElementById("yc-iframe") != null) {
+        updateCaptionStyle();
+    }
+});
+
+observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
 
 //If settings are changed or window resized, restyle captions.
 document.addEventListener("click", function (e) {
     e.target.matches("div.ytp-menuitem-label") && updateCaptionStyle();
 });
+
 window.addEventListener("resize", updateCaptionStyle);
-
-//Also restyle the first time the helper window is displayed
-document.getElementById("yc-window-helper").addEventListener("change", function() {
-    updateCaptionStyle();
-});
-
-//If the document player's state changes, change values that are used for tracking the elapsed time.
-document.getElementById("movie_player").addEventListener("onStateChange", function (state) {
-    //The movie player element
-    var el = document.getElementById("movie_player");
-    
-    //Played seconds represent the number of elapsed video seconds when the state changed
-    el.setAttribute("data-played-seconds", el.getCurrentTime());
-    //Played time represents the real-world time when the state changed
-    el.setAttribute("data-played-time", new Date().getTime() / 1000);
-    //Played state is true if the state was changed to the playing state (1). Otherwise, it's false
-    el.setAttribute("data-played-state", state == 1);
-});
