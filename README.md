@@ -25,9 +25,9 @@ A pull request will be reviewed by the members of our team before it is merged w
 ## Browser Support
 Browser | Support? | Branch | Web Store Link
 ------- | -------- | ------ | --------------
-Google Chrome | ✔️ | [main](https://github.com/YouCap/Youcap-Extension) | (Coming Soon)
-Chromium-based Browsers (e.g. Brave, Opera) | ✔️ | [main](https://github.com/YouCap/Youcap-Extension) | (Coming Soon)
-Mozilla Firefox | ✔️ | [firefox](https://github.com/YouCap/Youcap-Extension/tree/firefox) | (Coming Soon)
+Google Chrome | ✔️ | [main](https://github.com/YouCap/Youcap-Extension) | https://chrome.google.com/webstore/detail/youcap/bcolhilfagkeohpjnffcmflomabbbkel
+Chromium-based Browsers (e.g. Brave, Opera) | ✔️ | [main](https://github.com/YouCap/Youcap-Extension) | https://chrome.google.com/webstore/detail/youcap/bcolhilfagkeohpjnffcmflomabbbkel
+Mozilla Firefox | ✔️ | [firefox](https://github.com/YouCap/Youcap-Extension/tree/firefox) | https://addons.mozilla.org/en-US/firefox/addon/youcap/
 Microsoft Edge | ✔️ | [main](https://github.com/YouCap/Youcap-Extension) | (Coming Soon)
 Apple Safari | ✔️ | [main](https://github.com/YouCap/Youcap-Extension) | (Coming Soon)
 
