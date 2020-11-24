@@ -26,6 +26,10 @@ function createCaption(text) {
  * Then wait until any advertisement is gone before creating the caption elements.
  */
 function createUI(showCaptionsDefault, foundCaptions) {
+    //If no captions were found, make sure captions aren't shown by default
+    if(!foundCaptions)
+        showCaptionsDefault = false;
+        
     var movie_player = document.getElementById("movie_player");
     
     //Create a sandbox for establishing a security layer between 
@@ -49,6 +53,8 @@ function createUI(showCaptionsDefault, foundCaptions) {
     yc_button.setAttribute("title", "YouCap Subtitles");
     yc_button.setAttribute("aria-label", "YouCap subtitles");
     yc_button.setAttribute("aria-pressed", showCaptionsDefault);
+    if(!foundCaptions)
+        yc_button.setAttribute("disabled", "");
 
     yc_button.addEventListener("click", function() {
         var pressed = (this.getAttribute("aria-pressed") == "false");
@@ -101,14 +107,15 @@ function createUI(showCaptionsDefault, foundCaptions) {
         if(observer !== null && observer !== undefined)
             observer.disconnect();
         
+        //Delete any occurrence of the injected script, as YouTube likes to save these.
+        var script = document.querySelectorAll("[src='" + chrome.runtime.getURL("/js/webpage.js") + "']");
+        for(var i = 0; i < script.length; i++)
+            script[i].parentNode.removeChild(script[i]);
+        
         //Create an injected script for handling page content
-        var script = document.createElement("script");
+        script = document.createElement("script");
         script.src = chrome.runtime.getURL("/js/webpage.js");
         document.querySelector("body").appendChild(script);
-        
-        //If no captions were found, make sure captions aren't shown by default
-        if(!foundCaptions)
-            showCaptionsDefault = false;
         
         
         //Create the helper window
