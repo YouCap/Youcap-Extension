@@ -7,7 +7,7 @@ var movie_player = document.getElementById("movie_player");
 var sandbox_doc = document.getElementById("yc-iframe").contentDocument;
 
 //Font Family setting map
-const FONT_FAMILIES = [
+var FONT_FAMILIES = [
     "'Courier New', Courier, 'Nimbus Mono L', 'Cutive Mono', monospace",
     "'Times New Roman', Times, Georgia, Cambria, 'PT Serif Caption', serif",
     "'Deja Vu Sans Mono', 'Lucida Console', Monaco, Consolas, 'PT Mono', monospace",
@@ -18,7 +18,7 @@ const FONT_FAMILIES = [
 ];
 
 //Char edge style setting map
-CHAR_EDGE_STYLES = [
+var CHAR_EDGE_STYLES = [
     "text-shadow: rgb(34, 34, 34) 1px 1px 1.5px, rgb(34, 34, 34) 1px 1px 2px, rgb(34, 34, 34) 1px 1px 2.5px;",
     "text-shadow: rgb(34, 34, 34) 1px 1px;",
     "text-shadow: rgb(204, 204, 204) 1px 1px, rgb(34, 34, 34) -1px -1px;",
@@ -26,7 +26,7 @@ CHAR_EDGE_STYLES = [
 ];
 
 //Multipliers for font size changes relative to the video container size.
-FONT_MULTS = [1 / 45, 1 / 30, 1 / 22.5, 1 / 18, 1 / 15, 1 / 12.85, 1 / 11.25];
+var FONT_MULTS = [1 / 45, 1 / 30, 1 / 22.5, 1 / 18, 1 / 15, 1 / 12.85, 1 / 11.25];
 
 //Updates the caption style when settings are changed or when the window's resized.
 function updateCaptionStyle() {    

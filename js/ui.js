@@ -27,7 +27,7 @@ function createCaption(text) {
  * It starts by adding the YouCap button to the toolbar
  * Then wait until any advertisement is gone before creating the caption elements.
  */
-function createUI(showCaptionsDefault, foundCaptions) {
+function createUI(showCaptionsDefault, foundCaptions) {    
     var movie_player = document.getElementById("movie_player");
     
     //Create a sandbox for establishing a security layer between the captions and the user's browser
@@ -36,6 +36,9 @@ function createUI(showCaptionsDefault, foundCaptions) {
     
     //Firefox requires any dynamic iframe processing be handled after the load event is called.
     sandbox.addEventListener("load", function() {
+        if(document.getElementById("yc-button") != null)
+            return;
+        
         sandbox.id = "yc-iframe";
 
         var sandbox_head = sandbox.contentDocument.head;
@@ -54,6 +57,8 @@ function createUI(showCaptionsDefault, foundCaptions) {
         yc_button.setAttribute("title", "YouCap Subtitles");
         yc_button.setAttribute("aria-label", "YouCap subtitles");
         yc_button.setAttribute("aria-pressed", showCaptionsDefault);
+        if(!foundCaptions)
+            yc_button.setAttribute("disabled", "");
 
         yc_button.addEventListener("click", function() {
             var pressed = (this.getAttribute("aria-pressed") == "false");
@@ -102,12 +107,17 @@ function createUI(showCaptionsDefault, foundCaptions) {
         });
 
         //An internal function to create the caption UI once an advertisement is no longer playing.
-        var createUI_internal = function() {
+        var createUI_internal = function() {            
             if(observer !== null && observer !== undefined)
                 observer.disconnect();
 
+            //Delete all occurences of the script.
+            var script = document.querySelectorAll("[src='" + chrome.runtime.getURL("/js/webpage.js") + "']");
+            for(var i = 0; i < script.length; i++)
+                script[i].parentNode.removeChild(script[i]);
+            
             //Create an injected script for handling page content
-            var script = document.createElement("script");
+            script = document.createElement("script");
             script.src = chrome.runtime.getURL("js/webpage.js");
             document.querySelector("body").appendChild(script);
 
