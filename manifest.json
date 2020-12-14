@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "YouCap",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "default_locale": "en",
     "description": "An extension for YouCap, a community-driven alternative to YouTube's community captions.",
     "homepage_url": "https://youcap.video",
