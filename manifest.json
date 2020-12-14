@@ -41,7 +41,7 @@
         "declarativeContent",
         "storage"
     ],
-    "version_name": "0.1.0 Developer Build",
+    "version_name": "0.2.0 Alpha Build",
     "web_accessible_resources": [
         "js/webpage.js",
         "css/youtube.css",
