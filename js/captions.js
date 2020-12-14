@@ -64,7 +64,7 @@ var lastCaptionEndTime = 0;
 //The index of the current caption
 var currCaption = 0;
 
-//A variable to stire tge caption checking interval.
+//A variable to store the caption checking interval.
 var interval;
 
 //The function responsible for handling caption download and UI creation if captions are available for the video
