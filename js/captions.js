@@ -64,6 +64,9 @@ var lastCaptionEndTime = 0;
 //The index of the current caption
 var currCaption = 0;
 
+//A variable to store the caption checking interval.
+var interval;
+
 //The function responsible for handling caption download and UI creation if captions are available for the video
 function onDownloadCaptions(downloadedText) {
     captions = PARSER_SBV(downloadedText);
@@ -75,7 +78,8 @@ function onDownloadCaptions(downloadedText) {
             createUI(items.showCaptions, true);
         
             //Constantly check whether the caption needs to be changed.
-            setInterval(changeCaption, 16);
+            if(!interval)
+                interval = setInterval(changeCaption, 16);
         }
     );
 }
