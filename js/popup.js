@@ -87,13 +87,18 @@ async function initSelectMenus(language) {
 }
 
 chrome.storage.sync.get({
-        language: "english"
+        language: "english",
+        hideButton: "false"
     },
-    function(items) {
+    function(items) {    
+        //Check the box if it's enabled
+        if(items.hideButton == "true")
+            document.querySelector("input[name=hide-button]").setAttribute("checked", "");
+    
         //Initialize the select menu with the current language
         initSelectMenus(items.language);
     
-        chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
             //Get the current URL
             let url = tabs[0].url;
             
@@ -107,6 +112,22 @@ chrome.storage.sync.get({
         });
     }
 );
+
+//Save the hide button state variable
+document.querySelector("input[name=hide-button]").addEventListener("change", function() {
+    console.log("HELLO");
+    chrome.storage.sync.set({
+        hideButton: this.checked ? "true" : "false"
+    });
+});
+
+//Allows any part of the label in a checkbox group to be clicked, changing the checkbox value
+document.querySelector("input[type=checkbox]").addEventListener("click", function(e) {
+    e.stopPropagation();
+});
+document.querySelector(".checkbox-group").addEventListener("click", function() {
+    this.querySelector("input[type=checkbox]").checked = !this.querySelector("input[type=checkbox]").checked;
+});
 
 //Returns the page offset of an element.
 function offset(el) {

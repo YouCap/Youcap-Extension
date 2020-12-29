@@ -67,6 +67,10 @@ function updateCaptionStyle() {
     }
 }
 
+sandbox_doc.addEventListener("updateCaptionStyle", function() {
+    updateCaptionStyle();
+});
+
 //Convert a hex color to rgba, including the provided opacity as the alpha value.
 //Credit: https://stackoverflow.com/a/21648508/9146863
 function hexToRgbA(hex, opacity) {
