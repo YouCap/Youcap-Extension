@@ -39,8 +39,7 @@
     "offline_enabled": true,
     "permissions": [
         "declarativeContent",
-        "storage",
-        "tabs"
+        "storage"
     ],
     "version_name": "0.4.0 Alpha Build",
     "web_accessible_resources": [

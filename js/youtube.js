@@ -40,15 +40,16 @@ function checkForCaption(repoID, lang) {
 }
 
 //Update the video ID with the URL
-function updateVidID() {
+function getVidID() {
     var regex = new RegExp(/http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/(?:watch\?v=|embed\/)|\.be\/)([\w\-\_]*)(?:&[\w]+=[\w]+)*/gm);
     var urlMatch = regex.exec(window.location.href);
-    vidID = urlMatch[1];
+
+    return urlMatch[1];
 }
 
 //Load the captions and language information.
 function loadCaptionInfo() {
-    updateVidID();
+    vidID = getVidID();
     
     chrome.storage.sync.get({
             language: 'english'
@@ -66,7 +67,12 @@ function loadCaptionInfo() {
 //For when the URL changes but the page isn't switched (most notably the back/forward buttons)
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // listen for messages sent from background.js
-    if (request.message === 'yc_msg-urlChanged') {        
+    if (request.message === 'yc_msg-urlChanged') {   
+        const newVidID = getVidID();
+        if (newVidID === vidID) {
+            return;
+        }
+        
         //Delete the elements
         var sandbox_doc = document.getElementById("yc-iframe");
         sandbox_doc.parentNode.removeChild(sandbox_doc);
