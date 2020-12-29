@@ -63,25 +63,24 @@ function loadCaptionInfo() {
     );
 }
 
-//Removes the UI and redownloads info for the new video ID
-function reset() {
-    //Delete the elements
-    var sandbox_doc = document.getElementById("yc-iframe");
-    var yc_button = document.getElementById("yc-button");    
-    sandbox_doc.parentNode.removeChild(sandbox_doc);
-    yc_button.parentNode.removeChild(yc_button);
-    
-    //Delete the scripts
-    var script = document.querySelectorAll("[src='" + chrome.runtime.getURL("/js/webpage.js") + "']");
-    for(var i = 0; i < script.length; i++)
-        script[i].parentNode.removeChild(script[i]);
-    
-    loadCaptionInfo();
-}
-
 //For when the URL changes but the page isn't switched (most notably the back/forward buttons)
-window.addEventListener("popstate", reset);
-document.querySelector("video").addEventListener("loadedmetadata", reset);
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    // listen for messages sent from background.js
+    if (request.message === 'yc_msg-urlChanged') {        
+        //Delete the elements
+        var sandbox_doc = document.getElementById("yc-iframe");
+        sandbox_doc.parentNode.removeChild(sandbox_doc);
+        
+        document.getElementById("yc-button").setAttribute("aria-pressed", "false");
+
+        //Delete the scripts
+        var script = document.querySelectorAll("[src='" + chrome.runtime.getURL("/js/webpage.js") + "']");
+        for(var i = 0; i < script.length; i++)
+            script[i].parentNode.removeChild(script[i]);
+
+        loadCaptionInfo();
+    }
+});
 
 //First pass on downloading captions.
 downloadLanguages();

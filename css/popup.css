@@ -183,3 +183,22 @@ button.select > div div:not([disabled]):hover, button.select > div div.selected 
 button.select > div div:not([disabled]):hover p, button.select > div div.selected p {
     color: white;
 }
+
+
+
+checkbox-group {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+input[type=checkbox] {
+    display: inline-block;
+    margin-right: 7px;
+}
+
+label {
+    display: inline-block;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 12px;
+}

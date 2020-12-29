@@ -87,6 +87,7 @@ function onDownloadCaptions(downloadedText) {
 //The function responsible for handling UI creation if no captions are available.
 function onDownloadFailed() {
     createUI(false, false);
+    document.getElementById("yc-button").setAttribute("disabled", "");
 }
 
 //A variable for keeping track of the current time.

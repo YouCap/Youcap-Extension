@@ -23,166 +23,177 @@ function createCaption(text) {
     }
 }
 
-/* A function that creates the UI for YouCap.
- * It starts by adding the YouCap button to the toolbar
- * Then wait until any advertisement is gone before creating the caption elements.
- */
-function createUI(showCaptionsDefault, foundCaptions) {    
-    var movie_player = document.getElementById("movie_player");
-    
-    //Create a sandbox for establishing a security layer between the captions and the user's browser
-    var sandbox = document.createElement("iframe");
-    movie_player.prepend(sandbox);
-    
-    //Firefox requires any dynamic iframe processing be handled after the load event is called.
-    sandbox.addEventListener("load", function() {
-        if(document.getElementById("yc-button") != null)
-            return;
-        
-        sandbox.id = "yc-iframe";
+//Initially creates the YouCap button, to temporarily show it until captions are checked for.
+function createYoucapButtonDisabled() {
+    //Create the control button for enabling/disabling YouCap
+    yc_button = document.createElement("button");
+    yc_button.id = "yc-button";
+    yc_button.setAttribute("class", "ytp-button");
+    yc_button.setAttribute("title", "YouCap Subtitles");
+    yc_button.setAttribute("aria-label", "YouCap subtitles");
+    yc_button.setAttribute("aria-pressed", "false");
+    yc_button.setAttribute("disabled", "");
 
-        var sandbox_head = sandbox.contentDocument.head;
-        var sandbox_body = sandbox.contentDocument.body;
+    yc_button.addEventListener("click", function() {
+        var pressed = (this.getAttribute("aria-pressed") == "false");
+        this.setAttribute("aria-pressed", pressed);
 
-        var stylesheet = document.createElement("link");
-        stylesheet.rel = "stylesheet";
-        stylesheet.type = "text/css";
-        stylesheet.href = chrome.extension.getURL("css/youtube.css");
-        sandbox_head.appendChild(stylesheet);
-
-        //Create the control button for enabling/disabling YouCap
-        yc_button = document.createElement("button");
-        yc_button.id = "yc-button";
-        yc_button.setAttribute("class", "ytp-button");
-        yc_button.setAttribute("title", "YouCap Subtitles");
-        yc_button.setAttribute("aria-label", "YouCap subtitles");
-        yc_button.setAttribute("aria-pressed", showCaptionsDefault);
-        if(!foundCaptions)
-            yc_button.setAttribute("disabled", "");
-
-        yc_button.addEventListener("click", function() {
-            var pressed = (this.getAttribute("aria-pressed") == "false");
-            this.setAttribute("aria-pressed", pressed);
-
-            if(pressed) {
-                yc_window.classList.add("show");
-                showHelperWindow();
-            }
-            else
-                yc_window.classList.remove("show");
-
-            //Disable the default captions button when the YouCap subtitles are enabled.
-            if(pressed)
-                document.querySelector(".ytp-subtitles-button").setAttribute("disabled", "");
-            else
-                document.querySelector(".ytp-subtitles-button").removeAttribute("disabled");
-
-            chrome.storage.sync.set({
-                showCaptions: pressed
-            });
-        });
-
-        {
-            //The image element for the toolbar button
-            var yc_button_img = document.createElement("img");
-            yc_button_img.src = chrome.runtime.getURL("/icons/logo-white-128.png");
-            yc_button_img.setAttribute("height", "100%");
+        if(pressed) {
+            yc_window.classList.add("show");
+            showHelperWindow();
         }
+        else
+            yc_window.classList.remove("show");
 
-        yc_button.appendChild(yc_button_img);
-        document.querySelector(".ytp-right-controls").prepend(yc_button);
-
-        //Disable YouTube's captions if YouCap's are enabled.
-        if(showCaptionsDefault)
+        //Disable the default captions button when the YouCap subtitles are enabled.
+        if(pressed)
             document.querySelector(".ytp-subtitles-button").setAttribute("disabled", "");
         else
             document.querySelector(".ytp-subtitles-button").removeAttribute("disabled");
 
-        //Disables YouCap captions when YouTube's are enabled.
-        document.querySelector(".ytp-subtitles-button").addEventListener("click", function() {
-            if(this.getAttribute("aria-pressed") == "true")
-                yc_button.setAttribute("disabled", "");
-            else if(foundCaptions)
-                yc_button.removeAttribute("disabled");
+        chrome.storage.sync.set({
+            showCaptions: pressed
+        });
+    });
+
+    //The image element for the toolbar button
+    {
+        var yc_button_img = document.createElement("img");
+        yc_button_img.src = chrome.runtime.getURL("/icons/logo-white-128.png");
+        yc_button_img.setAttribute("height", "100%");
+    }
+
+    yc_button.appendChild(yc_button_img);
+    document.querySelector(".ytp-right-controls").prepend(yc_button);
+}
+
+/* A function that creates the UI for YouCap.
+ * It starts by adding the YouCap button to the toolbar
+ * Then wait until any advertisement is gone before creating the caption elements.
+ * showCaptionsDefault = Whether YouCap captions are previously enabled from another video (meaning they should be enabled now)
+ * foundCaptions = Whether any captions exist at all
+ */
+function createUI(showCaptionsDefault, foundCaptions) {
+    //If no captions were found, make sure captions aren't shown by default
+    if(!foundCaptions)
+        showCaptionsDefault = false;
+        
+    var movie_player = document.getElementById("movie_player");
+    
+    //Create a sandbox for establishing a security layer between 
+    var sandbox = document.createElement("iframe");
+    sandbox.id = "yc-iframe";
+    movie_player.prepend(sandbox);
+    
+    var sandbox_head = sandbox.contentDocument.head;
+    var sandbox_body = sandbox.contentDocument.body;
+    
+    var stylesheet = document.createElement("link");
+    stylesheet.rel = "stylesheet";
+    stylesheet.type = "text/css";
+    stylesheet.href = chrome.extension.getURL("css/youtube.css");
+    sandbox_head.appendChild(stylesheet);
+    
+    //If captions were found, enable the YouCap button.
+    if(foundCaptions) {
+        yc_button.removeAttribute("disabled");
+        yc_button.setAttribute("aria-pressed", "true");
+    } else {
+        chrome.storage.sync.get({
+            hideButton: "false"
+        },
+        function(items) {
+            if(items.hideButton == "true")
+                yc_button.remove();
+        });
+    }
+    
+    //Disable YouTube's captions if YouCap's are enabled.
+    if(showCaptionsDefault)
+        document.querySelector(".ytp-subtitles-button").setAttribute("disabled", "");
+    else
+        document.querySelector(".ytp-subtitles-button").removeAttribute("disabled");
+
+    //Disables YouCap captions when YouTube's are enabled.
+    document.querySelector(".ytp-subtitles-button").addEventListener("click", function() {
+        if(this.getAttribute("aria-pressed") == "true")
+            yc_button.setAttribute("disabled", "");
+        else if(foundCaptions)
+            yc_button.removeAttribute("disabled");
+    });
+    
+    //An internal function to create the caption UI once an advertisement is no longer playing.
+    var createUI_internal = function() {      
+        if(observer !== null && observer !== undefined)
+            observer.disconnect();
+        
+        //Delete any occurrence of the injected script, as YouTube likes to save these.
+        var script = document.querySelectorAll("[src='" + chrome.runtime.getURL("/js/webpage.js") + "']");
+        for(var i = 0; i < script.length; i++)
+            script[i].parentNode.removeChild(script[i]);
+        
+        //Create an injected script for handling page content
+        script = document.createElement("script");
+        script.src = chrome.runtime.getURL("/js/webpage.js");
+        document.querySelector("body").appendChild(script);
+        
+        
+        //Create the helper window
+        yc_window_helper = document.createElement("div");
+        yc_window_helper.id = "yc-window-helper";
+        yc_window_helper.classList.add("yc-window");
+        {
+            //Create the help message element.
+            var yc_caption_helper = document.createElement("span");
+            yc_caption_helper.classList.add("yc-caption");
+        }
+        yc_window_helper.appendChild(yc_caption_helper);
+        sandbox_body.appendChild(yc_window_helper);
+
+        //If the captions are shown by default, the help message should automatically appear.
+        if(showCaptionsDefault)
+            showHelperWindow();
+
+        //The window for displaying the captions in
+        yc_window = document.createElement("div");
+        yc_window.id = "yc-window";
+        yc_window.classList.add("yc-window");
+        if(showCaptionsDefault)
+            yc_window.classList.add("show");
+
+        //The actual caption element
+        yc_caption = document.createElement("span");
+        yc_caption.id = "yc-caption";
+        yc_caption.classList.add("yc-caption");
+        yc_caption.textContent = "";
+
+        yc_window.appendChild(yc_caption);
+        sandbox_body.appendChild(yc_window);
+        
+        movie_player.dispatchEvent(new Event("captionRestyle"));
+    }
+    
+    /* If no advertisement is playing, immediately create the caption UI
+     * Otherwise, wait until the advertisement stops by using a Mutation Observer.
+     */
+    var observer;
+    if(!movie_player.classList.contains("ad-showing")) {
+        createUI_internal();
+    } else {
+        //Creates a Mutation Observer to check for when an advertisement stops playing.
+        observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if(mutation.attributeName == "class"){
+                    if(!mutation.target.classList.contains('ad-showing')) {
+                        createUI_internal();
+                    }
+                }
+            });
         });
 
-        //An internal function to create the caption UI once an advertisement is no longer playing.
-        var createUI_internal = function() {            
-            if(observer !== null && observer !== undefined)
-                observer.disconnect();
-
-            //Delete all occurences of the script.
-            var script = document.querySelectorAll("[src='" + chrome.runtime.getURL("/js/webpage.js") + "']");
-            for(var i = 0; i < script.length; i++)
-                script[i].parentNode.removeChild(script[i]);
-            
-            //Create an injected script for handling page content
-            script = document.createElement("script");
-            script.src = chrome.runtime.getURL("js/webpage.js");
-            document.querySelector("body").appendChild(script);
-
-            //If no captions were found, make sure captions aren't shown by default
-            if(!foundCaptions)
-                showCaptionsDefault = false;
-
-
-            //Create the helper window
-            yc_window_helper = document.createElement("div");
-            yc_window_helper.id = "yc-window-helper";
-            yc_window_helper.classList.add("yc-window");
-            {
-                //Create the help message element.
-                var yc_caption_helper = document.createElement("span");
-                yc_caption_helper.classList.add("yc-caption");
-            }
-            yc_window_helper.appendChild(yc_caption_helper);
-            sandbox_body.appendChild(yc_window_helper);
-
-            //If the captions are shown by default, the help message should automatically appear.
-            if(showCaptionsDefault)
-                showHelperWindow();
-
-            //The window for displaying the captions in
-            yc_window = document.createElement("div");
-            yc_window.id = "yc-window";
-            yc_window.classList.add("yc-window");
-            if(showCaptionsDefault)
-                yc_window.classList.add("show");
-
-            //The actual caption element
-            yc_caption = document.createElement("span");
-            yc_caption.id = "yc-caption";
-            yc_caption.classList.add("yc-caption");
-            yc_caption.textContent = "";
-
-            yc_window.appendChild(yc_caption);
-            sandbox_body.appendChild(yc_window);
-
-            movie_player.dispatchEvent(new Event("captionRestyle"));
-        }
-
-        /* If no advertisement is playing, immediately create the caption UI
-         * Otherwise, wait until the advertisement stops by using a Mutation Observer.
-         */
-        var observer;
-        if(!movie_player.classList.contains("ad-showing") && document.querySelector("yt-player-error-message-renderer") == null) {
-            createUI_internal();
-        } else {
-            //Creates a Mutation Observer to check for when an advertisement stops playing.
-            observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if(mutation.attributeName == "class"){
-                        if(!mutation.target.classList.contains('ad-showing') && document.querySelector("yt-player-error-message-renderer") == null) {
-                            createUI_internal();
-                        }
-                    }
-                });
-            });
-
-            //Create the observer for the movie_player element.
-            observer.observe(movie_player, {attributes: true});
-        }
-    });
+        //Create the observer for the movie_player element.
+        observer.observe(movie_player, {attributes: true});
+    }
 }
 
 //Shows the helper caption, setting the appropriate content.
@@ -200,7 +211,7 @@ function showHelperWindow() {
                 var appends = [
                     document.createTextNode(lang + "\nClick "),
                     GEAR_IMAGE_SVG.item(0),
-                    document.createTextNode(" for settings")
+                    document.createTextNode(" for style settings")
                 ];
                 
                 for(var el of appends)
